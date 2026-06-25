@@ -1,0 +1,994 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Theme Palette - ShaYu Bookkeeping Yellow & Warm Light theme */
+  --bg-app: #f4f6f8;
+  --panel-bg: #ffffff;
+  --panel-border: #eef1f6;
+  --panel-shadow: 0 8px 24px rgba(149, 157, 165, 0.1);
+  --panel-shadow-hover: 0 12px 32px rgba(149, 157, 165, 0.18);
+
+  /* Brand Colors */
+  --primary: #ffd21e;
+  /* Iconic ShaYu yellow */
+  --primary-hover: #f7c300;
+  --primary-glow: rgba(255, 210, 30, 0.25);
+  --primary-text: #222222;
+
+  /* Solid Text Colors */
+  --color-text: #2d3748;
+  --color-text-muted: #8a99ad;
+  --color-text-dark: #1a202c;
+
+  --success: #10b981;
+  --success-hover: #059669;
+  --success-glow: rgba(16, 185, 129, 0.15);
+
+  --warning: #f59e0b;
+  --danger: #ff4757;
+  --danger-hover: #ff2e44;
+  --danger-glow: rgba(255, 71, 87, 0.15);
+
+  --gray-100: #f8f9fa;
+  --gray-200: #e9ecef;
+  --gray-700: #495057;
+  --gray-800: #343a40;
+
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 36px;
+
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Base Resets */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  font-family: var(--font-body);
+  background: var(--bg-app);
+  color: var(--color-text);
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  max-width: 100%;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-text-dark);
+}
+
+/* App Main Layout Structure */
+.app-wrapper {
+  display: flex;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Sidebar navigation - Desktop (Charcoal Grey with Yellow accents) */
+.sidebar {
+  width: 260px;
+  background: var(--panel-bg);
+  border-right: 1px solid var(--panel-border);
+  display: flex;
+  flex-direction: column;
+  padding: 28px 20px;
+  position: fixed;
+  top: 70px;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 40px;
+  padding-left: 10px;
+}
+
+.sidebar-logo .logo-icon {
+  font-size: 28px;
+}
+
+.sidebar-logo h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--color-text-dark);
+}
+
+.sidebar-menu {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-grow: 1;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  transition: var(--transition-fast);
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  color: var(--color-text-dark);
+  background: var(--gray-100);
+}
+
+.menu-item.active {
+  background: var(--primary);
+  color: var(--primary-text);
+  box-shadow: 0 4px 12px var(--primary-glow);
+}
+
+.sidebar-menu .menu-item.active:hover,
+.menu-item.active:hover {
+  background: var(--primary-hover) !important;
+  color: var(--primary-text) !important;
+}
+
+.sidebar-footer {
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Bottom Navigation - Mobile H5 */
+.bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--panel-bg);
+  border-top: 1px solid var(--panel-border);
+  height: calc(64px + env(safe-area-inset-bottom));
+  z-index: 100;
+  justify-content: space-around;
+  align-items: flex-start;
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.04);
+  padding-top: 8px;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  font-size: 10px;
+  font-weight: 700;
+  gap: 4px;
+  flex: 1;
+  height: 48px;
+}
+
+.bottom-nav-item.active {
+  color: var(--primary-hover);
+}
+
+/* Content Area layout */
+.main-content {
+  flex-grow: 1;
+  padding: 40px;
+  margin-left: 260px;
+  margin-top: 70px;
+  /* Offset for sidebar and header */
+  min-height: calc(100vh - 70px);
+  min-height: calc(100dvh - 70px);
+  padding-bottom: 60px;
+}
+
+/* ShaYu Style Warm Banner */
+.shayu-header-banner {
+  background: var(--primary);
+  color: var(--primary-text);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: 0 8px 30px rgba(255, 210, 30, 0.15);
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.shayu-header-banner::after {
+  content: '';
+  position: absolute;
+  right: -20px;
+  bottom: -20px;
+  width: 140px;
+  height: 140px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Clean White Cards */
+.glass-card {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--panel-shadow);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.glass-card.interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--panel-shadow-hover);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: var(--primary-text);
+  box-shadow: 0 4px 12px var(--primary-glow);
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+}
+
+.btn-success {
+  background: var(--success);
+  color: white;
+  box-shadow: 0 4px 12px var(--success-glow);
+}
+
+.btn-success:hover {
+  background: var(--success-hover);
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: white;
+  box-shadow: 0 4px 12px var(--danger-glow);
+}
+
+.btn-danger:hover {
+  background: var(--danger-hover);
+}
+
+.btn-secondary {
+  background: var(--gray-100);
+  color: var(--color-text);
+  border: 1px solid var(--panel-border);
+}
+
+.btn-secondary:hover {
+  background: var(--gray-200);
+}
+
+/* Forms & Inputs */
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.input-control {
+  background: var(--gray-100);
+  border: 1px solid #e2e8f0;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  outline: none;
+  transition: var(--transition-fast);
+  width: 100%;
+}
+
+.input-control:focus {
+  border-color: var(--primary-hover);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+  background: var(--panel-bg);
+}
+
+.input-control::placeholder {
+  color: #a0aec0;
+}
+
+/* Category grid pickers (ShaYu Grid) */
+.category-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px 8px;
+  max-height: 230px;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.category-picker-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+.category-picker-icon-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--gray-100);
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast);
+  border: 2px solid transparent;
+}
+
+.category-picker-item:hover .category-picker-icon-circle {
+  background: #e9ecef;
+}
+
+.category-picker-item.active .category-picker-icon-circle {
+  background: var(--primary);
+  color: var(--primary-text);
+  box-shadow: 0 6px 16px var(--primary-glow);
+  transform: scale(1.05);
+}
+
+.category-picker-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  transition: var(--transition-fast);
+}
+
+.category-picker-item.active .category-picker-name {
+  color: var(--color-text-dark);
+}
+
+/* Custom Numeric calculator Keypad (ShaYu classic) */
+.calculator-keypad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  background: #f4f6f8;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  margin-top: 16px;
+}
+
+.key-btn {
+  background: var(--panel-bg);
+  border: none;
+  border-radius: var(--radius-sm);
+  height: 50px;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: var(--font-heading);
+  color: var(--color-text-dark);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.key-btn:active {
+  background: #e9ecef;
+  transform: scale(0.97);
+}
+
+.key-btn.action {
+  background: #e2e8f0;
+  font-size: 15px;
+}
+
+.key-btn.confirm {
+  background: var(--primary);
+  color: var(--primary-text);
+  grid-row: span 2;
+  height: 108px;
+}
+
+.key-btn.confirm:active {
+  background: var(--primary-hover);
+}
+
+/* Modals styling */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-content {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 480px;
+  padding: 24px;
+  position: relative;
+  animation: modalSlideUp var(--transition-normal);
+}
+
+/* Category Badge styling */
+.category-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  background: var(--gray-100);
+}
+
+.category-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+/* Responsive Rules */
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+
+  .bottom-nav {
+    display: flex;
+  }
+
+  .main-content {
+    margin-left: 0;
+    margin-top: 0;
+    padding: 16px;
+    padding-bottom: calc(80px + env(safe-area-inset-bottom));
+    /* Space for bottom navigation */
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .modal-backdrop {
+    padding: 12px;
+  }
+
+  .modal-content {
+    padding: 16px;
+    max-height: calc(100dvh - 24px);
+    overflow-y: auto;
+  }
+
+  .glass-card {
+    padding: 16px;
+  }
+
+  /* Compact Modal elements for mobile H5 */
+  .category-picker-grid {
+    max-height: 140px;
+    gap: 12px 8px;
+    padding: 4px;
+  }
+
+  .category-picker-icon-circle {
+    width: 44px;
+    height: 44px;
+  }
+
+  .calculator-keypad {
+    padding: 8px;
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .key-btn {
+    height: 44px;
+    font-size: 16px;
+  }
+
+  .key-btn.confirm {
+    height: 94px;
+  }
+}
+
+/* ShaYu View Header Utilities */
+.shayu-view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .shayu-view-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .shayu-view-header .text-muted {
+    display: none;
+    /* Hide subtitle details on mobile screen size */
+  }
+
+  .shayu-view-header .btn span {
+    display: none;
+  }
+
+  .shayu-view-header .btn {
+    padding: 10px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+  }
+}
+
+/* White space no wrap on buttons */
+.btn {
+  white-space: nowrap;
+}
+
+/* Utilities */
+.text-success {
+  color: var(--success) !important;
+}
+
+.text-danger {
+  color: var(--danger) !important;
+}
+
+.text-muted {
+  color: var(--color-text-muted) !important;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.gap-8 {
+  gap: 8px;
+}
+
+.gap-12 {
+  gap: 12px;
+}
+
+.gap-16 {
+  gap: 16px;
+}
+
+.mb-8 {
+  margin-bottom: 8px;
+}
+
+.mb-16 {
+  margin-bottom: 16px;
+}
+
+.mb-24 {
+  margin-bottom: 24px;
+}
+
+.mt-16 {
+  margin-top: 16px;
+}
+
+.mt-24 {
+  margin-top: 24px;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Element Plus Theme Colors Override to match ShaYu Yellow */
+:root {
+  --el-color-primary: #ffd21e !important;
+  --el-color-primary-light-3: #ffe161 !important;
+  --el-color-primary-light-5: #ffeb8f !important;
+  --el-color-primary-light-7: #fff3be !important;
+  --el-color-primary-light-8: #fff7d4 !important;
+  --el-color-primary-light-9: #fffbea !important;
+  --el-color-primary-dark-2: #f7c300 !important;
+}
+
+.el-button--primary {
+  --el-button-text-color: #222222 !important;
+  --el-button-hover-text-color: #222222 !important;
+  --el-button-active-text-color: #222222 !important;
+}
+
+.el-button {
+  border-radius: var(--radius-md) !important;
+  font-family: var(--font-body) !important;
+  font-weight: 600 !important;
+}
+
+.el-input__wrapper,
+.el-select__wrapper,
+.el-textarea__inner {
+  border-radius: var(--radius-md) !important;
+  box-shadow: 0 0 0 1px #e2e8f0 inset !important;
+}
+
+.el-input__wrapper.is-focus,
+.el-select__wrapper.is-focus {
+  box-shadow: 0 0 0 1px var(--el-color-primary) inset !important;
+}
+
+.el-form-item__label {
+  font-weight: 600 !important;
+  color: var(--color-text-dark) !important;
+}
+
+/* Image Upload styles */
+.image-uploader-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.section-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.image-upload-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.upload-thumbnail-wrapper {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-sm);
+  position: relative;
+  border: 1px solid var(--panel-border);
+  overflow: hidden;
+  background: var(--gray-100);
+}
+
+.upload-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+}
+
+.upload-thumbnail:hover {
+  opacity: 0.85;
+}
+
+.thumbnail-delete-btn {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  z-index: 5;
+}
+
+.thumbnail-delete-btn:hover {
+  background: var(--danger) !important;
+}
+
+.upload-trigger-btn {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-sm);
+  border: 2px dashed #cbd5e1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  transition: border-color var(--transition-fast), color var(--transition-fast);
+  background: var(--panel-bg);
+}
+
+.upload-trigger-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary-text);
+}
+
+.hidden-file-input {
+  display: none;
+}
+
+.upload-btn-text {
+  font-size: 9px;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+/* Spinner for uploading */
+.upload-thumbnail-wrapper.uploading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s infinite linear;
+}
+
+/* Inline record thumbnails */
+.record-images-preview-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 100%;
+}
+
+.record-inline-thumbnail {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 1px solid var(--panel-border);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.record-inline-thumbnail:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Dark Mode Overrides */
+[data-theme="dark"] {
+  --bg-app: #0b0f19;
+  --panel-bg: #151b2d;
+  --panel-border: #232a42;
+  --panel-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  --panel-shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.55);
+
+  --color-text: #b3c1d1;
+  --color-text-muted: #5b6c8f;
+  --color-text-dark: #f3f6f9;
+
+  --gray-100: #1c243d;
+  --gray-200: #253052;
+  --gray-700: #cbd5e1;
+  --gray-800: #f1f5f9;
+
+  /* Custom input components support in dark mode */
+  input, select, textarea {
+    background-color: #1c243d !important;
+    border-color: #232a42 !important;
+    color: #f3f6f9 !important;
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: #5b6c8f !important;
+  }
+
+  .input-control:focus {
+    background-color: #151b2d !important;
+  }
+
+  /* Keypad background tweaks */
+  .calculator-keypad {
+    background: #1c243d !important;
+  }
+
+  /* Nginx proxy / Vue active sidebar adjustment */
+  .sidebar {
+    background: #0b0f19;
+    border-right: 1px solid var(--panel-border);
+  }
+
+  .sidebar-menu .menu-item:hover {
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  /* Element Plus custom dark overrides for tooltips/etc */
+  .el-drawer {
+    background-color: #151b2d !important;
+    color: #f3f6f9 !important;
+  }
+
+  .el-drawer__title {
+    color: #f3f6f9 !important;
+  }
+
+  .el-select-dropdown__item {
+    color: #b3c1d1 !important;
+  }
+
+  .el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
+    background-color: #1c243d !important;
+  }
+
+  .el-select__wrapper {
+    background-color: #1c243d !important;
+    box-shadow: 0 0 0 1px #232a42 inset !important;
+  }
+
+  .el-select__selection {
+    color: #f3f6f9 !important;
+  }
+
+  /* Dropdown lists */
+  .el-dropdown-menu {
+    background-color: #151b2d !important;
+  }
+
+  .el-dropdown-menu__item {
+    color: #b3c1d1 !important;
+  }
+
+  .el-dropdown-menu__item:not(.is-disabled):focus {
+    background-color: #1c243d !important;
+    color: #f3f6f9 !important;
+  }
+
+  /* Element Plus native CSS variables mapping */
+  --el-bg-color: #0b0f19 !important;
+  --el-bg-color-overlay: #151b2d !important;
+  --el-border-color-light: #232a42 !important;
+  --el-border-color: #232a42 !important;
+  --el-text-color-primary: #f3f6f9 !important;
+  --el-text-color-regular: #b3c1d1 !important;
+  --el-text-color-secondary: #5b6c8f !important;
+  --el-text-color-placeholder: #5b6c8f !important;
+  --el-fill-color-blank: #1c243d !important;
+  --el-fill-color-light: #1c243d !important;
+  --el-border-color-extra-light: #232a42 !important;
+
+  /* Dialog overlays and Pickers */
+  .el-overlay {
+    background-color: rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .el-popper {
+    background-color: #151b2d !important;
+    border: 1px solid #232a42 !important;
+  }
+
+  .el-picker-panel {
+    background-color: #151b2d !important;
+    color: #b3c1d1 !important;
+  }
+
+  .el-picker-panel__icon-btn {
+    color: #b3c1d1 !important;
+  }
+
+  .el-date-table th {
+    border-bottom: 1px solid #232a42 !important;
+    color: #f3f6f9 !important;
+  }
+
+  .el-date-table td.next-month, .el-date-table td.prev-month {
+    color: #5b6c8f !important;
+  }
+
+  .el-date-table td.normal {
+    color: #b3c1d1 !important;
+  }
+
+  .el-input__wrapper {
+    background-color: #1c243d !important;
+    box-shadow: 0 0 0 1px #232a42 inset !important;
+  }
+
+  .el-input__inner {
+    color: #f3f6f9 !important;
+  }
+}
