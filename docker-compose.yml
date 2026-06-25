@@ -20,6 +20,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+      network: host
     container_name: moola_backend
     restart: always
     ports:
@@ -37,6 +38,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      network: host
     container_name: moola_frontend
     restart: always
     ports:
