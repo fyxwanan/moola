@@ -5,11 +5,11 @@ services:
     image: mongo:6.0
     container_name: moola_mongodb
     restart: always
+    command: [ "mongod", "--bind_ip_all" ] # 这一行必须有
     ports:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
-    command: [ "mongod", "--bind_ip_all" ]
     healthcheck:
       test: [ "CMD-SHELL", "mongosh --eval 'db.adminCommand(\"ping\")' || mongo --eval 'db.adminCommand(\"ping\")'" ]
       interval: 10s
