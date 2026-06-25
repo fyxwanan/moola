@@ -9,8 +9,9 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
+    command: mongod --bind_ip_all # 或者 --bind_ip 0.0.0.0
     healthcheck:
-      test: ["CMD-SHELL", "mongosh --eval 'db.adminCommand(\"ping\")' || mongo --eval 'db.adminCommand(\"ping\")'"]
+      test: [ "CMD-SHELL", "mongosh --eval 'db.adminCommand(\"ping\")' || mongo --eval 'db.adminCommand(\"ping\")'" ]
       interval: 10s
       timeout: 5s
       retries: 5
