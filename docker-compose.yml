@@ -5,7 +5,7 @@ services:
     image: mongo:6.0
     container_name: moola_mongodb
     restart: always
-    command: [ "mongod", "--bind_ip_all" ] # 这一行必须有
+    command: [ "mongod", "--bind_ip_all" ] # 必须是这种数组格式，不是字符串
     ports:
       - "27017:27017"
     volumes:
