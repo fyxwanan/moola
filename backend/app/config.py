@@ -18,6 +18,10 @@ class Settings(BaseSettings):
         "http://localhost:5173",
         "http://127.0.0.1:5173",
         "http://localhost:3000",
+        "capacitor://localhost",
+        "http://localhost",
+        "http://192.168.147.4",
+        "http://192.168.147.4:9090",
     ]
 
     HOST: str = "0.0.0.0"
