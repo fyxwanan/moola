@@ -1,13 +1,19 @@
 import axios from 'axios';
 
 const getBaseURL = () => {
-  if (import.meta.env.VITE_API_BASE_URL && !import.meta.env.VITE_API_BASE_URL.includes('localhost')) {
+  const isElectron = typeof window !== 'undefined' && window.navigator && window.navigator.userAgent.toLowerCase().includes('electron');
+  const isCapacitor = typeof window !== 'undefined' && (window.Capacitor || window.location.href.startsWith('capacitor://') || window.location.href.startsWith('http://localhost'));
+  const isProd = import.meta.env.PROD;
+
+  if (import.meta.env.VITE_API_BASE_URL) {
     return import.meta.env.VITE_API_BASE_URL;
   }
-  if (import.meta.env.PROD) {
-    return '';
+
+  if (isElectron || isCapacitor || isProd) {
+    return 'http://192.168.147.4';
   }
-  const hostname = window.location.hostname;
+
+  const hostname = window.location.hostname || '127.0.0.1';
   return `http://${hostname}:8000`;
 };
 
@@ -47,11 +53,23 @@ api.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status === 401) {
       // Clear token and redirect to login if not already on the login page
-      const currentPath = window.location.pathname;
-      if (currentPath !== '/login' && currentPath !== '/auth') {
+      const isElectron = typeof window !== 'undefined' && window.navigator && window.navigator.userAgent.toLowerCase().includes('electron');
+      const isCapacitor = typeof window !== 'undefined' && (window.Capacitor || window.location.href.startsWith('capacitor://') || window.location.href.startsWith('http://localhost'));
+      const isHashRouting = isElectron || isCapacitor;
+      
+      const currentPath = isHashRouting ? window.location.hash : window.location.pathname;
+      const isLoginOrAuth = isHashRouting 
+        ? (currentPath.startsWith('#/login') || currentPath.startsWith('#/auth'))
+        : (currentPath === '/login' || currentPath === '/auth');
+        
+      if (!isLoginOrAuth) {
         localStorage.removeItem('moola_token');
         localStorage.removeItem('moola_user');
-        window.location.href = '/login';
+        if (isHashRouting) {
+          window.location.hash = '#/login';
+        } else {
+          window.location.href = '/login';
+        }
       }
     }
     return Promise.reject(error);

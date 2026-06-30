@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 
 const routes = [
@@ -50,8 +50,11 @@ const routes = [
   }
 ];
 
+const isElectron = typeof window !== 'undefined' && window.navigator && window.navigator.userAgent.toLowerCase().includes('electron');
+const isCapacitor = typeof window !== 'undefined' && (window.Capacitor || window.location.href.startsWith('capacitor://') || window.location.href.startsWith('http://localhost'));
+
 const router = createRouter({
-  history: createWebHistory(),
+  history: (isElectron || isCapacitor) ? createWebHashHistory() : createWebHistory(),
   routes
 });
 

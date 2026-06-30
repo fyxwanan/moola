@@ -1,0 +1,6 @@
+{
+  "appId": "com.moola.app",
+  "appName": "Moola",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}
